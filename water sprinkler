@@ -1,0 +1,53 @@
+#include<LiquidCrystal.h>
+int LM35=A0;
+int motor=13;  //motor pump connected to pin 13
+int LedRed=12; //Red led connected to pin 12
+int LedGreen=11; //Green led connected to pin 11;
+
+LiquidCrystal lcd(2,3,4,5,6,7);
+
+
+void setup() {
+  
+  pinMode(13,OUTPUT); //Set pin 13 as OUTPUT pin
+  pinMode(8,INPUT); //Set pin 8 as input pin, to receive data from Soil moisture sensor.
+  //Initialize serial and wait for port to open:
+  Serial.begin(9600); // opens serial port, sets data rate to 9600 bps
+  lcd.begin(16,2);
+  //lcd.print("Automated water");
+  lcd.setCursor(0,1);
+  //lcd.print("Watering System");
+  pinMode(motor,OUTPUT); //Set pin 13 as OUTPUT pin
+  pinMode(LedRed,OUTPUT);
+  pinMode(LedRed,OUTPUT);
+  delay(2000);
+  //lcd.clear();
+  lcd.print("Temp:")
+  lcd.setCursor(0,1);
+}
+
+void loop()
+  { 
+  int value=analogRead(LM35);
+  float Temperature = value*899.0/1002.0
+  
+  lcd.setCursor(6,0);
+  lcd.print(Temperature);
+  lcd.setCursor(11,1);
+  
+  if(Temperature>45)
+  {
+     digitalWrite(motor,HIGH); //if LM35(temperature) sensor provides HIGH value send HIGH value to motor pump and motor pump get on
+     digitalWrite(LedRed,HIGH);
+     digitalWrite(LedGreen,LOW);
+  }
+  else
+  {
+     digitalWrite(motor,LOW); //if LM35(temperature) sensor provides LOW value send LOW value to motor pump and motor pump get off
+     digitalWrite(LedRed,LOW);
+     digitalWrite(LedGreen,HIGH);
+  }
+
+  }
+  delay(1000); //Wait for few second and then continue the loop.
+}
